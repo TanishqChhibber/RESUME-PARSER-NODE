@@ -24,18 +24,7 @@ This is a **Node.js** backend for parsing resumes using **OpenRouter AI GPT-4**.
 - **POST /api/resume/parse**  
   - **Body:**  
     ```json
-    {
-      "resumeData": "John Doe, Software Engineer, john.doe@example.com, LinkedIn: linkedin.com/in/johndoe, GitHub: github.com/johndoe"
-    }
-    ```
-  - **Response:**  
-    ```json
-    {
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "linkedin": "linkedin.com/in/johndoe",
-      "github": "github.com/johndoe"
-    }
+    BODY > Key > set Key name as resume > select files > send
     ```
  - **Note for developers**
    ```sh
