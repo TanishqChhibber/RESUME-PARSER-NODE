@@ -1,6 +1,6 @@
 # Resume Parser API (Node.js)
 
-This is a **Node.js** backend for parsing resumes using **OpenAI GPT-4**.
+This is a **Node.js** backend for parsing resumes using **OpenRouter AI GPT-4**.
 
 ## 🚀 **Setup Instructions**
 
@@ -37,7 +37,11 @@ This is a **Node.js** backend for parsing resumes using **OpenAI GPT-4**.
       "github": "github.com/johndoe"
     }
     ```
-
+ - **Note for developers**
+   ```sh
+   This code has api key hidden and needed to be changed in order for the system to work.
+   In config.yaml change YOUR_API_KEY with your own key, In .env change YOUR_API_KEY with your own key
+   ```
 ## 📌 **Project Structure**
 ```
 resume-parser-node/
