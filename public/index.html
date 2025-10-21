@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Parser</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .upload-section {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: #764ba2;
+            background-color: #f8f9ff;
+        }
+
+        .upload-section.dragover {
+            border-color: #764ba2;
+            background-color: #f0f2ff;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .file-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .parse-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.3s ease;
+            display: none;
+        }
+
+        .parse-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .parse-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .result-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .result-section h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .result-section p, .result-section li {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .result-section ul {
+            margin-left: 20px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 ATS Resume Parser</h1>
+            <p>Upload your resume and extract key information with AI</p>
+        </div>
+
+        <div class="upload-section" id="uploadSection">
+            <input type="file" id="fileInput" class="file-input" accept=".pdf" />
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                📄 Choose Resume (PDF)
+            </button>
+            <p style="margin-top: 15px; color: #666;">
+                Or drag and drop your PDF file here
+            </p>
+            
+            <div class="file-info" id="fileInfo">
+                <p><strong>Selected File:</strong> <span id="fileName"></span></p>
+                <p><strong>Size:</strong> <span id="fileSize"></span></p>
+            </div>
+        </div>
+
+        <button class="parse-btn" id="parseBtn" onclick="parseResume()">
+            🚀 Parse Resume
+        </button>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Parsing your resume... This may take a few seconds.</p>
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="results" id="results">
+            <h2>📊 Extracted Information</h2>
+            
+            <div class="result-section">
+                <h3>👤 Personal Information</h3>
+                <p><strong>Name:</strong> <span id="name"></span></p>
+                <p><strong>Email:</strong> <span id="email"></span></p>
+                <p><strong>Phone:</strong> <span id="phone"></span></p>
+                <p><strong>LinkedIn:</strong> <span id="linkedin"></span></p>
+                <p><strong>GitHub:</strong> <span id="github"></span></p>
+            </div>
+
+            <div class="result-section">
+                <h3>💻 Skills</h3>
+                <ul id="skills"></ul>
+            </div>
+
+            <div class="result-section">
+                <h3>💼 Experience</h3>
+                <ul id="experience"></ul>
+            </div>
+
+            <div class="result-section">
+                <h3>🚀 Projects</h3>
+                <ul id="projects"></ul>
+            </div>
+
+            <div class="result-section">
+                <h3>🎓 Education</h3>
+                <ul id="education"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFile = null;
+
+        // File input change handler
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            handleFileSelect(e.target.files[0]);
+        });
+
+        // Drag and drop handlers
+        const uploadSection = document.getElementById('uploadSection');
+
+        uploadSection.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+
+        uploadSection.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+        });
+
+        uploadSection.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+            if (file && file.type === 'application/pdf') {
+                selectedFile = file;
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileSize').textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+                document.getElementById('fileInfo').style.display = 'block';
+                document.getElementById('parseBtn').style.display = 'block';
+                hideError();
+            } else {
+                showError('Please select a valid PDF file.');
+            }
+        }
+
+        async function parseResume() {
+            if (!selectedFile) {
+                showError('Please select a file first.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('resume', selectedFile);
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('parseBtn').disabled = true;
+            document.getElementById('results').style.display = 'none';
+            hideError();
+
+            try {
+                const response = await fetch('/api/resume/parse', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayResults(data.extractedData);
+                } else {
+                    showError(data.error || 'Failed to parse resume');
+                }
+            } catch (error) {
+                showError('Network error: ' + error.message);
+            } finally {
+                // Hide loading
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('parseBtn').disabled = false;
+            }
+        }
+
+        function displayResults(data) {
+            // Personal information
+            document.getElementById('name').textContent = data.name || 'Not found';
+            document.getElementById('email').textContent = data.email || 'Not found';
+            document.getElementById('phone').textContent = data.phone || 'Not found';
+            document.getElementById('linkedin').textContent = data.linkedin || 'Not found';
+            document.getElementById('github').textContent = data.github || 'Not found';
+
+            // Skills
+            const skillsList = document.getElementById('skills');
+            skillsList.innerHTML = '';
+            if (data.skills && data.skills.length > 0) {
+                data.skills.forEach(skill => {
+                    const li = document.createElement('li');
+                    li.textContent = skill;
+                    skillsList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = 'No skills found';
+                skillsList.appendChild(li);
+            }
+
+            // Experience
+            const experienceList = document.getElementById('experience');
+            experienceList.innerHTML = '';
+            if (data.experience && data.experience.length > 0) {
+                data.experience.forEach(exp => {
+                    const li = document.createElement('li');
+                    
+                    // Check if experience is an object (new format) or string (old format)
+                    if (typeof exp === 'object' && exp !== null) {
+                        // New format with company, role, duration, details
+                        const expDiv = document.createElement('div');
+                        expDiv.style.marginBottom = '15px';
+                        expDiv.style.padding = '10px';
+                        expDiv.style.backgroundColor = '#f8f9fa';
+                        expDiv.style.borderRadius = '5px';
+                        
+                        expDiv.innerHTML = `
+                            <h4 style="margin: 0 0 5px 0; color: #333;">${exp.company || 'Unknown Company'}</h4>
+                            <p style="margin: 0 0 5px 0; font-weight: bold; color: #666;">${exp.role || 'Unknown Role'}</p>
+                            <p style="margin: 0 0 10px 0; font-style: italic; color: #888;">${exp.duration || 'Unknown Duration'}</p>
+                            ${exp.details && exp.details.length > 0 ? 
+                                `<ul style="margin: 0; padding-left: 20px;">
+                                    ${exp.details.map(detail => `<li style="margin-bottom: 3px;">${detail}</li>`).join('')}
+                                </ul>` : ''
+                            }
+                        `;
+                        li.appendChild(expDiv);
+                    } else {
+                        // Old format - simple string
+                        li.textContent = exp;
+                    }
+                    
+                    experienceList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = 'No experience found';
+                experienceList.appendChild(li);
+            }
+
+            // Projects
+            const projectsList = document.getElementById('projects');
+            projectsList.innerHTML = '';
+            if (data.projects && data.projects.length > 0) {
+                data.projects.forEach(project => {
+                    const li = document.createElement('li');
+                    
+                    // Check if project is an object (new format) or string (old format)
+                    if (typeof project === 'object' && project !== null) {
+                        // New format with title, duration, details
+                        const projectDiv = document.createElement('div');
+                        projectDiv.style.marginBottom = '15px';
+                        projectDiv.style.padding = '10px';
+                        projectDiv.style.backgroundColor = '#f0f8ff';
+                        projectDiv.style.borderRadius = '5px';
+                        
+                        projectDiv.innerHTML = `
+                            <h4 style="margin: 0 0 5px 0; color: #333;">${project.title || 'Unnamed Project'}</h4>
+                            <p style="margin: 0 0 10px 0; font-style: italic; color: #888;">${project.duration || 'Unknown Duration'}</p>
+                            ${project.details && project.details.length > 0 ? 
+                                `<ul style="margin: 0; padding-left: 20px;">
+                                    ${project.details.map(detail => `<li style="margin-bottom: 3px;">${detail}</li>`).join('')}
+                                </ul>` : ''
+                            }
+                        `;
+                        li.appendChild(projectDiv);
+                    } else {
+                        // Old format - simple string
+                        li.textContent = project;
+                    }
+                    
+                    projectsList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = 'No projects found';
+                projectsList.appendChild(li);
+            }
+
+            // Education
+            const educationList = document.getElementById('education');
+            educationList.innerHTML = '';
+            if (data.education && data.education.length > 0) {
+                data.education.forEach(edu => {
+                    const li = document.createElement('li');
+                    li.textContent = edu;
+                    educationList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = 'No education found';
+                educationList.appendChild(li);
+            }
+
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

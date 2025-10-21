@@ -1,0 +1,21 @@
+PROJECTS
+LearnVault - Fullstack LMS Application
+Oct. 2024 - Nov. 2024
+• Implemented user authentication using JWT tokens and bcrypt for password hashing
+• Developed responsive UI using React.js and Material-UI components
+• Built RESTful API endpoints using Node.js and Express.js
+• Integrated MongoDB for data storage and Mongoose for schema modeling
+
+HireHub - Full stack Job portal Application
+Nov. 2024 - Dec. 2024
+• Created a job portal platform with user and employer roles
+• Implemented real-time notifications using Socket.io
+• Built search functionality with filters for job listings
+• Integrated payment gateway for premium job postings
+
+Coding Journal
+Feb. 2024 - Apr. 2024
+• Developed a blogging platform for developers to share coding experiences
+• Implemented rich text editor with code syntax highlighting
+• Added social features like comments and likes
+• Built tagging system for easy content categorization

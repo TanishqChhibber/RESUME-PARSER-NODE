@@ -12,6 +12,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static files from public directory
+app.use(express.static('public'));
+
 // Multer Storage Configuration
 const storage = multer.diskStorage({
     destination: "uploads/",
@@ -34,7 +37,7 @@ app.post("/api/resume/parse", upload.single("resume"), (req, res) => {
     const filePath = path.join(__dirname, "uploads", req.file.filename);
 
     // 🟢 Call Python Script to Extract Data
-    const pythonProcess = spawn('python3', ['resume_parser.py', filePath]);
+    const pythonProcess = spawn('/Users/tanishq/Documents/GitHub/RESUME-PARSER-NODE/.venv/bin/python', ['resume_parser.py', filePath]);
 
     let output = "";
 

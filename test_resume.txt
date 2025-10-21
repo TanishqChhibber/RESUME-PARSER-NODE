@@ -1,0 +1,61 @@
+TANISHQ KUMAR CHHIBBER
+(+91)7291864017 | tanishq.chhibber2003@gmail.com | www.linkedin.com/in/tanishqchhibber
+
+EXPERIENCE
+SwitchiT, AI Product Management Intern March 2025 – Present
+• Worked with AI engineering team to define features and evaluate model outputs.
+• Led cross-functional coordination for AI/ML product modules including a LinkedIn Scraper, Resume Autofiller,
+and AI-powered Job Summary Generator using OpenAI APIs.
+• Built end-to-end AI tools: RSS News Aggregator that parsed news from multiple feeds and ranked them by user
+interest.
+• Collaborated with backend developers on data ingestion pipelines and frontend developers on dashboard UX.
+• Designed and launched AI-powered job aggregation tool, improving candidate-job matching efficiency by 35% and
+informing strategic product decisions.
+Celebal Technologies, Data Science Intern | May 2024 - July 2024
+• Completed and submitted weekly assignments demonstrating proficiency in data science skills and Python.
+• Delivered weekly assignments with a 100% submission rate, achieving practical expertise in data cleaning, preprocessing, feature engineering, and data visualization.
+• Developed and executed a final data science project utilizing a Random Forest model, achieving high accuracy in
+data analysis and generating insights through advanced visualization.
+CipherSquare Technologies, Data Analyst Intern | June 2023 - July 2023
+• Developed and launched a custom ETL pipeline that automated data transformation tasks, saving 20 hours per
+week previously spent on manual data preparation for reporting and analysis purposes.
+• Collaborated with cross-functional teams to establish best practices for data modeling; created documentation that
+is now utilized by over 15 team members, enhancing overall data governance and user understanding
+• Reporting and Cross-functional Collaboration:Coordinated with the support team to implement new project installations, leveraging advanced features to reduce service delivery time by 40%, enhancing overall customer satisfaction
+
+PROJECTS
+Athena – AI-Powered Startup Investment Assistant (In Progress) July 2025 - Present
+• Designing Athena, an AI-powered investment intelligence tool for early-stage investors, automating startup analysis,
+valuation, and negotiation workflows.
+• Designed modular architecture to analyze market momentum, founder credibility, and financial estimations with
+minimal inputs.
+• Integrating GPT-driven negotiation simulator, real-time deal term generation, and auto-generated 2–3 page deal
+memos in PDF.
+Universal Job Scrapper June 2025 - July 2025
+• A job aggregation tool that fetches listings directly from a company's careers page, with no reliance on third-party
+APIs.
+• Built a smart scraping engine that accepts any company name and fetches live job openings from their website's
+careers page.
+• Used Python (BeautifulSoup, Requests, Selenium), FastAPI, Elasticsearch, and MongoDB to make it scalable and
+fast.
+Resume Parser & AI Summarizer March 2025 - April 2025
+• Developed an NLP-powered system to extract structured data from uploaded resumes, enhancing recruiter efficiency.
+• Integrated Hugging Face transformer models and OpenAI large language models to generate concise, high-quality
+automated recruiter summaries.
+• Leveraged advanced AI techniques to refine parsed resume text into polished, professional summaries tailored for
+recruitment needs.
+AI Chef Recommendation System May 2025 - June 2025
+• Designed and implemented an AI-powered recipe recommendation engine that suggests recipes based on user-input
+ingredients using advanced NLP matching and similarity algorithms.
+• Integrated APIs from Spoonacular and Cocktail DB to access a curated recipe dataset.
+• Developed custom AI models to generate novel recipe suggestions beyond the existing API databases, enhancing
+personalization and discovery
+
+SKILLS
+Languages Python | SQL
+Databases MySql | Xampp
+Libraries/Frameworks OpenCV | Pandas | Numpy | Matplotlib | Visual Studio | MSBI | Power-BI
+
+EDUCATION
+Manipal University Jaipur, B.Tech in Computer Science Engineering | Jaipur, Rajasthan 2021-2025
+Gyanshree school, XII | P.C.M | Noida, Uttar Pradesh 2020-2021
